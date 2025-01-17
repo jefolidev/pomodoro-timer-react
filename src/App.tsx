@@ -1,6 +1,6 @@
-import { TimerActive } from './components/timer-active'
-import './index.css'
+import { TimerConfig } from "./components/timer-config"
+import "./index.css"
 
 export function App() {
-  return <TimerActive />
+  return <TimerConfig />
 }

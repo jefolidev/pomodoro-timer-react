@@ -7,7 +7,7 @@
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: white;
 }
 
@@ -20,8 +20,11 @@ body {
   padding: 10rem;
 }
 
-:focus { 
-  outline: 1px solid rgba(120, 120, 120, 0.407); 
-  border: 0; 
+:focus {
+  outline: 1px solid rgba(120, 120, 120, 0.407);
+  border: 0;
+}
 
+button:focus {
+  outline: none;
 }
