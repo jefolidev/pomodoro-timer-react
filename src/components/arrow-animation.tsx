@@ -2,7 +2,7 @@ import * as motion from "motion/react-client"
 import { useState } from "react"
 import arrowIcon from "../assets/arrow-right.svg"
 
-export default function ArrowAnimation() {
+export default function EffectButton() {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -17,8 +17,8 @@ export default function ArrowAnimation() {
             ? {
                 translateX: [0, 25, -10],
                 transition: {
-                  ease: ["easeIn"],
-                  duration: 1,
+                  ease: ["easeInOut"],
+                  duration: 0.8,
                   repeat: Infinity,
                   repeatType: "loop",
                 },
