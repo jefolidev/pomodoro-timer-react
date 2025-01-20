@@ -2,6 +2,10 @@
   "name": "backend",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "server": "bun --watch src/server.ts",
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js"
+  },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/bun": "latest",
