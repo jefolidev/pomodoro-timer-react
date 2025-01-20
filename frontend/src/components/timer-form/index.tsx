@@ -5,28 +5,23 @@ import { z } from "zod"
 import { ErrorMessage } from "./components/error-message"
 
 const timerDataSchema = z.object({
-  id: z.string().optional(),
   name: z.string().min(1),
-  amount_session_minutes: z.string(),
-  amount_session_breaks: z.string(),
-  short_break_time: z.number().optional(),
-  longe_break_time: z.number().optional(),
-  session_until_long_break: z.number().optional(),
+  amount_session_minutes: z.number(),
+  amount_session_breaks: z.number(),
   created_at: z.date().optional(),
-  completed_at: z.date().optional(),
-  pending_since: z.date().optional(),
 })
 
 type TimerData = z.infer<typeof timerDataSchema>
 
 export function TimerForm() {
-  const [amountMinutesTime, setAmountMinutesTime] = useState(10)
+  const [amountMinutesTime, setAmountMinutesTime] = useState(5)
   const [amountSessionsBreaks, setAmountSessionsBreaks] = useState(1)
   const [isError, setError] = useState(false)
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<TimerData>({
     resolver: zodResolver(timerDataSchema),
@@ -34,42 +29,46 @@ export function TimerForm() {
 
   function increaseMinuteAmount() {
     if (amountMinutesTime < 720) {
-      amountMinutesTime < 60
-        ? setAmountMinutesTime((prevTime) => prevTime + 5)
-        : setAmountMinutesTime((prevTime) => prevTime + 30)
+      const newValue =
+        amountMinutesTime < 60 ? amountMinutesTime + 5 : amountMinutesTime + 30
+
+      setAmountMinutesTime(newValue)
+      setValue("amount_session_minutes", newValue)
     } else {
       setAmountMinutesTime(5)
+      setValue("amount_session_minutes", 5)
     }
   }
+
   function decreaseMinuteAmount() {
     if (amountMinutesTime > 5) {
-      amountMinutesTime > 5 && amountMinutesTime < 60
-        ? setAmountMinutesTime((prevTime) => prevTime - 5)
-        : setAmountMinutesTime((prevTime) => prevTime - 30)
+      const newValue =
+        amountMinutesTime > 5 && amountMinutesTime < 60
+          ? amountMinutesTime - 5
+          : amountMinutesTime - 30
+      setAmountMinutesTime(newValue)
+      setValue("amount_session_minutes", newValue)
     } else {
       setAmountMinutesTime(5)
+      setValue("amount_session_minutes", 5)
     }
   }
 
   function increaseSessionAmount() {
-    amountSessionsBreaks < 5
-      ? setAmountSessionsBreaks((prevTime) => prevTime + 1)
-      : setAmountSessionsBreaks(1)
+    const newValue = amountSessionsBreaks < 5 ? amountSessionsBreaks + 1 : 1
+
+    setAmountSessionsBreaks(newValue)
+    setValue("amount_session_breaks", newValue)
   }
   function decreaseSessionAmount() {
-    amountSessionsBreaks <= 1
-      ? setAmountSessionsBreaks(5)
-      : setAmountSessionsBreaks((prevTime) => prevTime - 1)
+    const newValue = amountSessionsBreaks <= 1 ? 5 : amountSessionsBreaks - 1
+
+    setAmountSessionsBreaks(newValue)
+    setValue("amount_session_breaks", newValue)
   }
 
   function handleFormSubmit(data: TimerData) {
-    const newSession: TimerData = {
-      ...data,
-      id: crypto.randomUUID(),
-      short_break_time: 5 * 60,
-      longe_break_time: 15 * 60,
-      session_until_long_break: 4,
-    }
+    console.log(data)
   }
 
   useEffect(() => {
@@ -123,6 +122,7 @@ export function TimerForm() {
               </label>
               <div className='flex items-center gap-4'>
                 <button
+                  type='button'
                   className='flex h-9 w-9 items-center justify-center rounded-full bg-secondary-color p-4 text-2xl hover:brightness-90'
                   onClick={decreaseMinuteAmount}
                 >
@@ -136,8 +136,9 @@ export function TimerForm() {
                         amountMinutesTime === 5 ? "0" + 5 : amountMinutesTime
                       }
                       className='w-[5.5rem] bg-transparent text-center'
-                      {...register("amount_session_minutes")}
-                      disabled
+                      {...register("amount_session_minutes", {
+                        valueAsNumber: true,
+                      })}
                     />
                   </span>
                   <span className='text-xl font-light text-gray-300'>min</span>
@@ -145,6 +146,7 @@ export function TimerForm() {
                 <button
                   className='flex h-9 w-9 items-center justify-center rounded-full bg-secondary-color p-4 text-2xl hover:brightness-90'
                   onClick={increaseMinuteAmount}
+                  type='button'
                 >
                   +
                 </button>
@@ -160,6 +162,7 @@ export function TimerForm() {
                 <button
                   className='flex h-9 w-9 items-center justify-center rounded-full bg-secondary-color p-4 text-2xl hover:brightness-90'
                   onClick={decreaseSessionAmount}
+                  type='button'
                 >
                   -
                 </button>
@@ -168,13 +171,15 @@ export function TimerForm() {
                   type='text'
                   value={"0" + amountSessionsBreaks}
                   className='-mt-2.5 w-[5.5rem] bg-transparent text-center text-5xl'
-                  {...register("amount_session_breaks")}
-                  disabled
+                  {...register("amount_session_breaks", {
+                    valueAsNumber: true,
+                  })}
                 />
 
                 <button
                   className='flex h-9 w-9 items-center justify-center rounded-full bg-secondary-color p-4 text-2xl hover:brightness-90'
                   onClick={increaseSessionAmount}
+                  type='button'
                 >
                   +
                 </button>
