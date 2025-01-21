@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { createSession } from "../../http/create-session"
 import { ErrorMessage } from "./components/error-message"
 
 const timerDataSchema = z.object({
@@ -67,8 +68,8 @@ export function TimerForm() {
     setValue("amount_session_breaks", newValue)
   }
 
-  function handleFormSubmit(data: TimerData) {
-    console.log(data)
+  async function handleFormSubmit(data: TimerData) {
+    return await createSession(data)
   }
 
   useEffect(() => {
