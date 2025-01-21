@@ -11,8 +11,8 @@ declare module 'knex/types/tables' {
       amount_session_minutes: number
       amount_session_breaks: number
       created_at: string
-      completed_at?: string
-      pending_since?: string
+      completed_at?: string | null
+      pending_since?: string | null
     }
   }
 }

@@ -1,11 +1,14 @@
 import type { FastifyInstance } from 'fastify'
 
 import { z } from 'zod'
+import { deleteSession } from '../functions/sessions/delete-session'
 import { getSessions } from '../functions/sessions/get-sessions'
 import {
   createSession,
   newSessionBodySchema,
 } from '../functions/sessions/insert-session'
+import { pauseSession } from '../functions/sessions/pause-session'
+import { resumeSession } from '../functions/sessions/resume-session'
 import {
   updateSession,
   updateSessionSchema,
@@ -52,5 +55,39 @@ export async function sessionsRoutes(app: FastifyInstance) {
     })
 
     return reply.code(201).send('Session updated!')
+  })
+
+  app.delete('/:id', async (req, reply) => {
+    const deleteSessionSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const sessionToDelete = deleteSessionSchema.parse(req.params)
+
+    await deleteSession(sessionToDelete)
+    return reply.code(204).send()
+  })
+
+  app.patch('/pause/:id', async (req, reply) => {
+    const sessionToPauseSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const sessionToPause = sessionToPauseSchema.parse(req.params)
+
+    await pauseSession(sessionToPause)
+
+    return reply.code(204).send()
+  })
+  app.patch('/resume/:id', async (req, reply) => {
+    const sessionToResumeSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const sessionToResume = sessionToResumeSchema.parse(req.params)
+
+    await resumeSession(sessionToResume)
+
+    return reply.code(204).send()
   })
 }
