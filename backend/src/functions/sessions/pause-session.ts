@@ -10,8 +10,6 @@ type SessionToPause = z.infer<typeof sessionToPauseSchema>
 export async function pauseSession({ id }: SessionToPause) {
   const sessionToBePaused = knexDb('sessions').where({ id })
 
-  // const sessionPause = knexDb('session').where({id,})
-
   const isPaused = (await sessionToBePaused).some((t) => {
     return t.status === 'pending'
   })

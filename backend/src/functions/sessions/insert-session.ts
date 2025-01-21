@@ -4,7 +4,7 @@ import { knexDb } from '../../database'
 export const newSessionBodySchema = z.object({
   name: z.string(),
   status: z
-    .enum(['pending', 'in_progress', 'completed'])
+    .enum(['pending', 'in_progress', 'completed', 'interrupted'])
     .default('in_progress'),
   sessions_until_long_break: z.number().default(4),
   amount_session_minutes: z.number(),

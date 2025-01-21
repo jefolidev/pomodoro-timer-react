@@ -7,6 +7,7 @@ import {
   createSession,
   newSessionBodySchema,
 } from '../functions/sessions/insert-session'
+import { interruptSession } from '../functions/sessions/interrupt-session'
 import { pauseSession } from '../functions/sessions/pause-session'
 import { resumeSession } from '../functions/sessions/resume-session'
 import {
@@ -79,6 +80,7 @@ export async function sessionsRoutes(app: FastifyInstance) {
 
     return reply.code(204).send()
   })
+
   app.patch('/resume/:id', async (req, reply) => {
     const sessionToResumeSchema = z.object({
       id: z.string().uuid(),
@@ -87,6 +89,18 @@ export async function sessionsRoutes(app: FastifyInstance) {
     const sessionToResume = sessionToResumeSchema.parse(req.params)
 
     await resumeSession(sessionToResume)
+
+    return reply.code(204).send()
+  })
+
+  app.patch('/interrupt/:id', async (req, reply) => {
+    const sessionToInterruptSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const sessionToInterrupt = sessionToInterruptSchema.parse(req.params)
+
+    await interruptSession(sessionToInterrupt)
 
     return reply.code(204).send()
   })

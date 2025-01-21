@@ -1,10 +1,9 @@
-import { Knex } from 'knex'
 declare module 'knex/types/tables' {
   export interface Tables {
     sessions: {
       id: string
       name: string
-      status: pending | in_progress | completed
+      status: pending | in_progress | interrupted | completed
       short_break_time: number
       long_break_time: number
       sessions_until_long_break: number

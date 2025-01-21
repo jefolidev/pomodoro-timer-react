@@ -1,8 +1,8 @@
 # Requisitos Funcionais
 
-- [x] O usuário deve poder criar sessões; ✅ 2025-01-23
+- [x] O usuário deve poder criar sessões; ✅ 2025-01-21
 - [ ] O usuário deve poder interromper sessões;
-- [ ] O usuário deve poder pausar sessões;
+- [x] O usuário deve poder pausar sessões; ✅ 2025-01-21
 - [ ] O usuário deve poder editar o total de tempo da sessão depois de iniciada, não podendo ser maior que o tempo da sessão atual;
 - [ ] O usuário deve poder alterar o tempo das pausas curtas e longas;
 - [ ] O usuário deve poder alter a quantidade de pausas até a pausa maior;
