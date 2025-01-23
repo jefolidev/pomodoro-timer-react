@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,6 +19,10 @@ export function TimerForm() {
   const [amountMinutesTime, setAmountMinutesTime] = useState(5)
   const [amountSessionsBreaks, setAmountSessionsBreaks] = useState(1)
   const [isError, setError] = useState(false)
+
+  const { mutateAsync: createSessioFn } = useMutation({
+    mutationFn: createSession,
+  })
 
   const {
     register,
@@ -69,7 +74,16 @@ export function TimerForm() {
   }
 
   async function handleFormSubmit(data: TimerData) {
-    return await createSession(data)
+    try {
+      return await createSessioFn({
+        name: data.name,
+        amount_session_breaks: data.amount_session_breaks,
+        amount_session_minutes: data.amount_session_minutes,
+      })
+    } catch (error) {
+      console.error("Some inexpected error ocurred: ", error)
+      alert("Houve um problema na criação da sessão. Tente novamente! " + error)
+    }
   }
 
   useEffect(() => {

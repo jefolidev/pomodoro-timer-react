@@ -13,3 +13,4 @@
 - [ ] O formulário ao ser enviado deve atribuir automaticamente: uuid, data de criação, status (em andamento quando for iniciada), tempo de uma pausa longa e curta, quantidade de pausas até uma pausa longa, data de que foi concluída (que será indefinida de início) e data de desde quando a tarefa foi pausada (que retornará a ser nula depois que ela ser resumida);
 - [ ] Somente um timer pode estar pausado, não sendo possível criar mais de um temporizador. Se um for pausado o mesmo deve continuar ativo até ser concluído ou cancelado;
 - [ ] Ao atualizar a página o contador deve continuar de onde parou.
+- [ ] O 

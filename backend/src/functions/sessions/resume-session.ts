@@ -10,7 +10,7 @@ type SessionToResume = z.infer<typeof sessionToResumeSchema>
 export async function resumeSession({ id }: SessionToResume) {
   const sessionToBeResumed = knexDb('sessions').where({ id })
 
-  const isResumed = (await sessionToBeResumed).find((t) => {
+  const isResumed = (await sessionToBeResumed).some((t) => {
     return t.status === 'in_progress'
   })
 
